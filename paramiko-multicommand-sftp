@@ -1,0 +1,26 @@
+import paramiko
+import re
+print('hello')
+ssh = paramiko.SSHClient()
+print('Please waite-----create ssh client and sftp')
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+print('Please waite-----add cert')
+ssh.connect('reeves.su', port=XXXX, username='XXXXXXX', password='XXXXXXXXXXXXXXXXXXXXX')
+print('Please waite-----connecting to server and transfer data from Linux to Windows')
+sftp_client=ssh.open_sftp()
+sftp_client.get('/home/reeves/666.txt', 'C:\\Users\\reeves\\Documents')
+sftp_client.put('C:\\Users\\reeves\\Documents\\666.txt', '/home/reeves/666.txt')
+cmd = 'ls -l /home/reeves/; whoami; ping -c1 8.8.8.8'
+print('Please waite-----executing command')
+stdin, stdout, stderr = ssh.exec_command(cmd)
+stdout = stdout.readlines()
+stdout = "" .join(stdout)
+print(stdout)
+sftp_client.close()
+ssh.close()
+if re.findall(r"0% packet", stdout):
+    print('host is UP- END program')
+else:
+    print('host is DOWN-connect to bind')
+input("Press Enter")
+
